@@ -7,6 +7,22 @@ Start Cassandra via the official docker [Image](https://hub.docker.com/_/cassand
 docker run -p9042:9042 --name cassandra -d cassandra:latest
 ```
 
+Init Timeseries table with the timeseries.cql script:
+```
+CREATE  KEYSPACE ts_keyspace WITH REPLICATION = {
+  'class' : 'SimpleStrategy',
+  'replication_factor' : 1
+};	
+
+CREATE TABLE timeseries (
+  name text,
+  version text,
+  time timestamp,
+  value decimal,
+PRIMARY KEY ((name, version), time)
+);
+```
+
 Build the application with Maven and run the jar file
 ```
 java -jar target/timeseries-repo-0.0.1-SNAPSHOT.jar
